@@ -18,9 +18,13 @@ export default function BottomTab() {
     const token = await AsyncStorageLib.getItem('token')
     if (token) setIsSignin(true)
   }
-
+  async function getDataUser() {
+      const jsonValue = await AsyncStorageLib.getItem('user')
+      console.log("user",JSON.parse(jsonValue))
+  }
   useEffect(() => {
     getStatusLogin()
+    getDataUser()
   }, [])
   return (
     <Tab.Navigator

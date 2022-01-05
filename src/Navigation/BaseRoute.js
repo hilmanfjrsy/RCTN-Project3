@@ -5,6 +5,8 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import BottomTab from './BottomTab';
 import SplashScreen from '../SplashScreen';
+import Login from '../Screens/Auth/Login';
+import Register from '../Screens/Auth/Register';
 
 const Stack = createNativeStackNavigator();
 
@@ -16,6 +18,12 @@ export default function BaseRoute() {
           headerShown:false
         })} />
         <Stack.Screen name="SplashScreen" component={SplashScreen} options={({navigation,route})=>({
+          headerShown:false
+        })} />
+        <Stack.Screen name="Login" component={Login} options={({navigation,route})=>({
+          headerShown:false
+        })} />
+        <Stack.Screen name="Register" component={Register} options={({navigation,route})=>({
           headerShown:false
         })} />
       </Stack.Navigator>

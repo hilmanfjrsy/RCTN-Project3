@@ -9,8 +9,8 @@ export default function ButtonPrimary({
   width = '100%',
   isRounded = true,
   isLoading = false,
-  text = 'Tombol',
-  onPress = () => { }
+  text,
+  onPress
 }) {
   return (
     <TouchableOpacity
