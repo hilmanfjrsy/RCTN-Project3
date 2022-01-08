@@ -35,7 +35,7 @@ const GlobalStyles = StyleSheet.create({
     marginTop: 40
   },
   containerInput: {
-    paddingVertical: 10, 
+    paddingVertical: 2, 
     marginBottom: 2},
   input: {
     borderColor: GlobalVar.primaryColor,
