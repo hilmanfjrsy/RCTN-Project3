@@ -1,15 +1,15 @@
-import axios from "axios";
+import axios from 'axios';
 import Toast from 'react-native-toast-message';
-import GlobalVar from "./GlobalVar";
+import GlobalVar from './GlobalVar';
 
-export async function getRequest(path) {
+export async function getRequest(path, data) {
   try {
-    const response = await axios.get(GlobalVar.host + path);
+    const response = await axios.get(GlobalVar.host + path, data);
     if (response) {
       return response;
     }
   } catch (error) {
-    let message = 'Terjadi Kesalahan'
+    let message = 'Terjadi Kesalahan';
     if (error.response) {
       // The request was made and the server responded with a status code
       // that falls out of the range of 2xx
@@ -24,13 +24,13 @@ export async function getRequest(path) {
     } else {
       // Something happened in setting up the request that triggered an Error
       console.log('Error', error.message);
-      message = error.message
+      message = error.message;
     }
     console.log(error.config);
     Toast.show({
       type: 'error',
       text1: 'Error',
-      text2: message
+      text2: message,
     });
   }
 }
@@ -42,7 +42,7 @@ export async function postRequest(path, data) {
       return response;
     }
   } catch (error) {
-    let message = 'Terjadi Kesalahan'
+    let message = 'Terjadi Kesalahan';
     if (error.response) {
       // The request was made and the server responded with a status code
       // that falls out of the range of 2xx
@@ -57,13 +57,13 @@ export async function postRequest(path, data) {
     } else {
       // Something happened in setting up the request that triggered an Error
       console.log('Error', error.message);
-      message = error.message
+      message = error.message;
     }
     console.log(error.config);
     Toast.show({
       type: 'error',
       text1: 'Error',
-      text2: message
+      text2: message,
     });
   }
 }
