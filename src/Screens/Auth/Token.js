@@ -9,7 +9,7 @@ export async function Token() {
       result += characters.charAt(Math.floor(Math.random() * charactersLength));
     }
     try{
-        await AsyncStorage.setItem('token', result)
+        await AsyncStorage.setItem('token', JSON.stringify(result))
     } catch {
         
     }

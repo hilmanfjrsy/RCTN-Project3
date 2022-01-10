@@ -31,12 +31,13 @@ const GlobalStyles = StyleSheet.create({
     color: '#1D1D1D',
   },
   textRegister: {
-    textAlign: 'center', 
-    marginTop: 40
+    textAlign: 'center',
+    marginTop: 40,
   },
   containerInput: {
-    paddingVertical: 2, 
-    marginBottom: 2},
+    paddingVertical: 2,
+    marginBottom: 2,
+  },
   input: {
     borderColor: GlobalVar.primaryColor,
     borderWidth: 1,
@@ -44,18 +45,37 @@ const GlobalStyles = StyleSheet.create({
     paddingLeft: 10,
   },
   container: {
-    marginHorizontal: 10
+    marginHorizontal: 10,
   },
   header: {
-    marginTop: 50, marginBottom: 40
+    marginTop: 50,
+    marginBottom: 40,
   },
   title: {
-    fontSize: 30, 
-    fontWeight: 'bold', 
-    marginBottom: 5
+    fontSize: 30,
+    fontWeight: 'bold',
+    marginBottom: 5,
   },
   subtitle: {
-    fontSize: 18
+    fontSize: 18,
+  },
+  settingContainer: {
+    backgroundColor: 'white',
+    margin: 20,
+    borderRadius: 10,
+    padding: 10,
+  },
+  settingTitle: {
+    fontSize: 13,
+    fontWeight: 'bold',
+  },
+  settingSection: {
+    marginTop: 5,
+    paddingVertical: 7,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    borderBottomWidth: 1,
+    borderBottomColor: 'grey',
   },
 });
 
