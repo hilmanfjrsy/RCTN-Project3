@@ -1,14 +1,14 @@
-import React, {useState, useEffect} from 'react';
-import {TextInput, Text, View, TouchableOpacity} from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { TextInput, Text, View, TouchableOpacity } from 'react-native';
 import ButtonPrimary from '../../Components/ButtonPrimary';
 import GlobalStyles from '../../Utils/GlobalStyles';
 import GlobalVar from '../../Utils/GlobalVar';
 import FA from 'react-native-vector-icons/FontAwesome';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Toast from 'react-native-toast-message';
-import { Token } from './Token';
+import { generateToken } from '../../Utils/GlobalFunc';
 
-const Login = ({navigation}) => {
+const Login = ({ navigation }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [passwordShow, setPasswordShow] = useState(false);
@@ -17,116 +17,91 @@ const Login = ({navigation}) => {
   function togglePassword() {
     setPasswordShow(!passwordShow);
   }
+
   async function getDataUser() {
     const jsonValue = await AsyncStorage.getItem('user');
-    const newJson = JSON.parse(jsonValue);
+    const newJson = JSON.parse(jsonValue) || [];
     setDataUser(newJson);
   }
- 
-
 
   function handleSubmit() {
-    const find = dataUser.find((item)=> item.username == username && item.password == password)
-      if(find == undefined){
-              Toast.show({
+    if (username && password) {
+      const find = dataUser.find((item) => item.username.toLowerCase() == username.toLowerCase())
+      console.log(find)
+      if (find) {
+        if (find.username == username && find.password == password) {
+          generateToken()
+          Toast.show({
+            type: 'success',
+            text1: 'Berhasil login',
+          });
+          navigation.reset({
+            index: 0,
+            routes: [{ name: 'BottomTab' }],
+          });
+        } else {
+          Toast.show({
             type: 'error',
             text1: 'Username atau password salah!',
           });
-      } else if(find.username == username && find.password == password){
-        Token()
+        }
+      } else {
         Toast.show({
-                type: 'success',
-                text1: 'Berhasil login',
-              });
-          navigation.navigate('BottomTab')
+          type: 'error',
+          text1: 'User tidak ditemukan!',
+        });
       }
-    return find
-    // dataUser.map((i)=>{
-    //   if(i.username === username && i.password === password){
-    //     Toast.show({
-    //       type: 'success',
-    //       text1: 'Berhasil login',
-    //     });
-    //   } else {
-    //     if(i.username !== username && i.password !== password){
-    //       Toast.show({
-    //         type: 'error',
-    //         text1: 'Salah',
-    //       });
-    //     }
-    //   }
-    // })
-
-    // const match = dataUser.map((item)=> item.username == username && item.password == password)
-    // if(match){
-    //   console.log('data benar')
-    // } else {
-    //   console.log('datasalah')
-    // }
-    // for (var i = 0; i < dataUser.length; i++) {
-    //   console.log('data 0', dataUser[i])
-    //   if (dataUser[i].username == username && dataUser[i].password == password) {
-    //     Toast.show({
-    //       type: 'success',
-    //       text1: 'Berhasil login',
-    //     });
-    //     Token()
-    //     navigation.navigate('BottomTab')
-    //    break;
-    //   } else {
-    //     Toast.show({
-    //       type: 'error',
-    //       text1: 'Username atau password salah!',
-    //     });
-    //     break;
-    //   }
-    // }
+    } else {
+      Toast.show({
+        type: 'error',
+        text1: 'Harap isi semua form',
+      });
+    }
   }
   useEffect(() => {
     getDataUser();
-  }, []);
+  }, [navigation]);
   return (
-    <View style={GlobalStyles.container}>
+    <View style={[GlobalStyles.container, { justifyContent: 'center' }]}>
       <View style={GlobalStyles.header}>
-        <Text style={[GlobalStyles.title, {color: GlobalVar.primaryColor}]}>
+        <Text style={[GlobalStyles.fontPrimary, { color: GlobalVar.primaryColor, fontSize: 30, fontWeight: 'bold' }]}>
           Login
         </Text>
-        <Text style={GlobalStyles.subtitle}>
-          Enter your email address and password to access your account
+        <Text style={[GlobalStyles.fontSecondary, { fontSize: 16 }]}>
+          Enter your username and password to access your account
         </Text>
       </View>
-      <View style={GlobalStyles.containerInput}>
+      <View style={GlobalStyles.cardBody}>
         <TextInput
           placeholder="Username"
-          style={GlobalStyles.input}
           onChangeText={v => setUsername(v)}
         />
       </View>
       <View
-        style={[GlobalStyles.input, {flexDirection: 'row', marginBottom: 60}]}>
+        style={[GlobalStyles.cardBody, GlobalStyles.spaceBetween, { marginBottom: 60 }]}>
         <TextInput
           placeholder="Password"
-          style={{width: '85%'}}
-          secureTextEntry={!passwordShow ? true : false}
+          style={{ flex: 1 }}
+          secureTextEntry={!passwordShow}
           onChangeText={v => setPassword(v)}
         />
         <TouchableOpacity
-          style={{justifyContent: 'center'}}
+          style={{ justifyContent: 'center' }}
           onPress={togglePassword}>
           <FA
             name={passwordShow ? 'eye' : 'eye-slash'}
             color={'grey'}
             size={20}
-            style={{marginLeft: 10}}
+            style={{ marginHorizontal: 10 }}
           />
         </TouchableOpacity>
       </View>
       <ButtonPrimary text={'Login'} onPress={handleSubmit} />
-      <Text style={[GlobalStyles.textRegister, {marginTop: 110}]}>
+      <Text style={[GlobalStyles.fontSecondary, { textAlign: 'center', fontSize: 14, marginTop: 110 }]}>
         Dont Have an account?{' '}
         <Text
           onPress={() => navigation.navigate('Register')}
-          style={{color: GlobalVar.primaryColor}}>
+          style={[GlobalStyles.fontPrimary, { fontWeight: 'bold', color: GlobalVar.primaryColor }]}>
           Sign Up
         </Text>
       </Text>

@@ -116,7 +116,7 @@ export default function Search({ navigation, route }) {
   function RenderCity({ item, index }) {
     return (
       <TouchableOpacity
-        style={[GlobalStyles.cardBody, {marginRight:10}]}
+        style={[GlobalStyles.cardBody, { marginRight: 10 }]}
       >
         <Text style={[GlobalStyles.fontPrimary, {}]}>Bandung</Text>
       </TouchableOpacity>
