@@ -6,7 +6,7 @@ import GlobalVar from '../../Utils/GlobalVar';
 import FA from 'react-native-vector-icons/FontAwesome';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Toast from 'react-native-toast-message';
-import { generateToken } from '../../Utils/GlobalFunc';
+import { encryptToken, generateToken } from '../../Utils/GlobalFunc';
 
 const Login = ({ navigation }) => {
   const [username, setUsername] = useState('');
@@ -30,10 +30,11 @@ const Login = ({ navigation }) => {
       console.log(find)
       if (find) {
         if (find.username == username && find.password == password) {
-          generateToken()
+          encryptToken(find,'token')
           Toast.show({
             type: 'success',
             text1: 'Berhasil login',
+            text2: 'Sesi Anda hanya 15 menit, setelah itu Anda akan keluar secara otomatis',
           });
           navigation.reset({
             index: 0,
@@ -43,24 +44,27 @@ const Login = ({ navigation }) => {
           Toast.show({
             type: 'error',
             text1: 'Username atau password salah!',
+            text2: 'Harap cek kembali username atau password Anda',
           });
         }
       } else {
         Toast.show({
           type: 'error',
           text1: 'User tidak ditemukan!',
+          text2: 'Anda belum terdaftar di sistem Kami. Harap daftar terlebih dahulu',
         });
       }
     } else {
       Toast.show({
         type: 'error',
         text1: 'Harap isi semua form',
+        text2: 'Harap perhatikan semua form',
       });
     }
   }
   useEffect(() => {
     getDataUser();
-  }, [navigation]);
+  }, []);
   return (
     <View style={[GlobalStyles.container, { justifyContent: 'center' }]}>
       <View style={GlobalStyles.header}>
@@ -73,6 +77,7 @@ const Login = ({ navigation }) => {
       </View>
       <View style={GlobalStyles.cardBody}>
         <TextInput
+          autoCapitalize='none'
           placeholder="Username"
           onChangeText={v => setUsername(v)}
         />
@@ -100,7 +105,7 @@ const Login = ({ navigation }) => {
       <Text style={[GlobalStyles.fontSecondary, { textAlign: 'center', fontSize: 14, marginTop: 110 }]}>
         Dont Have an account?{' '}
         <Text
-          onPress={() => navigation.navigate('Register')}
+          onPress={() => navigation.navigate('Register', { getDataUser: getDataUser.bind(this) })}
           style={[GlobalStyles.fontPrimary, { fontWeight: 'bold', color: GlobalVar.primaryColor }]}>
           Sign Up
         </Text>

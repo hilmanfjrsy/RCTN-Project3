@@ -2,6 +2,7 @@ import axios from "axios";
 import Toast from 'react-native-toast-message';
 import GlobalVar from "./GlobalVar";
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import { sign, decode } from "react-native-pure-jwt";
 
 export async function getRequest(path) {
   try {
@@ -66,6 +67,59 @@ export async function postRequest(path, data) {
       text1: 'Error',
       text2: message
     });
+  }
+}
+
+export async function encryptToken(params = {}, name = null) {
+  sign(
+    {
+      iss: "notinissapasich",
+      exp: new Date().getTime() + 60000 * 15, // expiration date, required, in ms, absolute to 1/1/1970
+      data: params
+    }, // body
+    GlobalVar.secretKey, // secret
+    {
+      alg: "HS256"
+    }
+  )
+    .then(async v => {
+      console.log(v)
+      await AsyncStorage.setItem(name, v)
+    }) // token as the only argument
+    .catch(console.error); // possible errors
+}
+
+export async function decodeToken(token = '', navigation = null) {
+  decode(
+    token, // the token
+    GlobalVar.secretKey, // the secret
+    {
+      skipValidation: false // to skip signature and exp verification
+    }
+  )
+    .then(v => v) // already an object. read below, exp key note
+    .catch(async e => {
+      Toast.show({
+        type: 'error',
+        text1: 'Sesi telah habis',
+        text2: e.message
+      });
+      await AsyncStorage.removeItem('token')
+      // navigation.reset({
+      //   index: 0,
+      //   routes: [{ name: 'Login' }],
+      // });
+      return null
+    });
+}
+
+export async function checkExpireToken() {
+  let token = await AsyncStorage.getItem('token')
+  if (token) {
+    let user = await decodeToken(token, navigation)
+    if (user) {
+      await AsyncStorage.setItem('profile', user)
+    }
   }
 }
 

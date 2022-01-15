@@ -6,7 +6,7 @@ import GlobalVar from '../../Utils/GlobalVar';
 import FA from 'react-native-vector-icons/FontAwesome'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Toast from 'react-native-toast-message';
-const Register = ({ navigation }) => {
+const Register = ({ navigation, route }) => {
   const [passwordShow, setPasswordShow] = useState(false)
   const [email, setEmail] = useState(null)
   const [password, setPassword] = useState(null)
@@ -52,6 +52,7 @@ const Register = ({ navigation }) => {
               type: 'success',
               text1: 'Berhasil mendaftar',
             })
+            route.params.getDataUser()
             navigation.navigate('Login')
             setIsLoading(false)
           }, 2000)

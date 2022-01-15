@@ -1,6 +1,6 @@
 // In App.js in a new project
 
-import * as React from 'react';
+import React, { useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import BottomTab from './BottomTab';
@@ -10,7 +10,11 @@ import Register from '../Screens/Auth/Register';
 
 const Stack = createNativeStackNavigator();
 
-export default function BaseRoute() {
+export default function BaseRoute({navigation}) {
+
+  useEffect(()=>{
+    console.log('navigation')
+  },[navigation])
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName={'SplashScreen'}>
