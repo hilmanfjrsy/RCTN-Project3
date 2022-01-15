@@ -1,8 +1,13 @@
+import React, { Component } from 'react';
+import { Text, View } from 'react-native';
 import axios from 'axios';
 import Toast from 'react-native-toast-message';
 import GlobalVar from "./GlobalVar";
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { sign, decode } from "react-native-pure-jwt";
+
+import FA from 'react-native-vector-icons/FontAwesome'
+import GlobalStyles from './GlobalStyles';
 
 export async function getRequest(path, params) {
   try {
@@ -21,6 +26,7 @@ export async function getRequest(path, params) {
     if (error.response) {
       // The request was made and the server responded with a status code
       // that falls out of the range of 2xx
+      message = error.response.data.message
       console.log(error.response.data);
       console.log(error.response.status);
       console.log(error.response.headers);
@@ -40,6 +46,7 @@ export async function getRequest(path, params) {
       text1: 'Error',
       text2: message,
     });
+    return null
   }
 }
 
@@ -50,10 +57,11 @@ export async function postRequest(path, data) {
       return response;
     }
   } catch (error) {
-    let message = 'Terjadi Kesalahan';
+    var message = 'Terjadi Kesalahan';
     if (error.response) {
       // The request was made and the server responded with a status code
       // that falls out of the range of 2xx
+      message = error.response.data.message
       console.log(error.response.data);
       console.log(error.response.status);
       console.log(error.response.headers);
@@ -73,6 +81,7 @@ export async function postRequest(path, data) {
       text1: 'Error',
       text2: message,
     });
+    return null
   }
 }
 
@@ -128,3 +137,57 @@ export async function checkExpireToken() {
     }
   }
 }
+
+export const getRating = (total = 0, fontSize = 10) => {
+  function getValue(value) {
+    switch (value) {
+      case 0:
+        return "star-o";
+      case 50:
+        return "star-half-o";
+      case 100:
+        return "star";
+    }
+  }
+
+  function getStars(value) {
+    if (value > 0 && value < 1) {
+      return [50, 0, 0, 0, 0];
+    } else if (value == 1) {
+      return [100, 0, 0, 0, 0];
+    } else if (value > 1 && value < 2) {
+      return [100, 50, 0, 0, 0];
+    } else if (value == 2) {
+      return [100, 100, 0, 0, 0];
+    } else if (value > 2 && value < 3) {
+      return [100, 100, 50, 0, 0];
+    } else if (value == 3) {
+      return [100, 100, 100, 0, 0];
+    } else if (value > 3 && value < 4) {
+      return [100, 100, 100, 50, 0];
+    } else if (value == 4) {
+      return [100, 100, 100, 100, 0];
+    } else if (value > 4 && value < 5) {
+      return [100, 100, 100, 100, 50];
+    } else if (value >= 5) {
+      return [100, 100, 100, 100, 100];
+    } else {
+      return [0, 0, 0, 0, 0];
+    }
+  }
+
+  return (
+    <View style={[GlobalStyles.row,{}]}>
+      {getStars(total).map((value, idx) => {
+        return (
+          <View key={idx} className="list-inline-item m-0">
+            <FA name={getValue(value)} size={fontSize} color={'orange'} />
+          </View>
+        );
+      })}
+      <Text style={{ fontSize, color: GlobalVar.greyColor, marginLeft: 5 }}>
+        ({total})
+      </Text>
+    </View>
+  );
+};

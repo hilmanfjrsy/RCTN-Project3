@@ -3,7 +3,6 @@ import { View, Text, StatusBar } from 'react-native';
 import GlobalStyles from './Utils/GlobalStyles';
 import { Swing } from 'react-native-animated-spinkit'
 import GlobalVar from './Utils/GlobalVar';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { checkExpireToken, decodeToken } from './Utils/GlobalFunc';
 
 export default function SplashScreen({ navigation, route }) {

@@ -7,6 +7,7 @@ import BottomTab from './BottomTab';
 import SplashScreen from '../SplashScreen';
 import Login from '../Screens/Auth/Login';
 import Register from '../Screens/Auth/Register';
+import SearchResult from '../Screens/SearchResult';
 
 const Stack = createNativeStackNavigator();
 
@@ -29,6 +30,10 @@ export default function BaseRoute({navigation}) {
         })} />
         <Stack.Screen name="Register" component={Register} options={({navigation,route})=>({
           headerShown:false
+        })} />
+        <Stack.Screen name="SearchResult" component={SearchResult} options={({navigation,route})=>({
+          headerShown:true,
+          title:'Search Result'
         })} />
       </Stack.Navigator>
     </NavigationContainer>
