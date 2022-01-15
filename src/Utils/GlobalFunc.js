@@ -89,7 +89,7 @@ export async function encryptToken(params = {}, name = null) {
     .catch(console.error); // possible errors
 }
 
-export async function decodeToken(token = '', navigation = null) {
+export async function decodeToken(token = '') {
   decode(
     token, // the token
     GlobalVar.secretKey, // the secret
@@ -116,21 +116,9 @@ export async function decodeToken(token = '', navigation = null) {
 export async function checkExpireToken() {
   let token = await AsyncStorage.getItem('token')
   if (token) {
-    let user = await decodeToken(token, navigation)
+    let user = await decodeToken(token)
     if (user) {
       await AsyncStorage.setItem('profile', user)
     }
   }
-}
-
-export async function generateToken() {
-  var result = '';
-  var characters =
-    'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-  var charactersLength = characters.length;
-  for (var i = 0; i < 20; i++) {
-    result += characters.charAt(Math.floor(Math.random() * charactersLength));
-  }
-  await AsyncStorage.setItem('token', JSON.stringify(result))
-  return result;
 }

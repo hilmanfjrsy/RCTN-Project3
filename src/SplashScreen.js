@@ -11,6 +11,10 @@ export default function SplashScreen({ navigation, route }) {
   useEffect(() => {
     setTimeout(async () => {
       checkExpireToken()
+      navigation.reset({
+        index: 0,
+        routes: [{ name: 'BottomTab' }],
+      });
     }, 3000);
   }, [])
   return (
