@@ -8,32 +8,51 @@ import SplashScreen from '../SplashScreen';
 import Login from '../Screens/Auth/Login';
 import Register from '../Screens/Auth/Register';
 import SearchResult from '../Screens/SearchResult';
+import DetailHotel from '../Screens/DetailHotel';
+import { Text, TouchableOpacity } from 'react-native';
+import GlobalVar from '../Utils/GlobalVar';
+
+import Ant from 'react-native-vector-icons/AntDesign'
+import GlobalStyles from '../Utils/GlobalStyles';
 
 const Stack = createNativeStackNavigator();
 
-export default function BaseRoute({navigation}) {
+export default function BaseRoute({ navigation }) {
 
-  useEffect(()=>{
+  useEffect(() => {
     console.log('navigation')
-  },[navigation])
+  }, [navigation])
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName={'SplashScreen'}>
-        <Stack.Screen name="BottomTab" component={BottomTab} options={({navigation,route})=>({
-          headerShown:false
+        <Stack.Screen name="BottomTab" component={BottomTab} options={({ navigation, route }) => ({
+          headerShown: false
         })} />
-        <Stack.Screen name="SplashScreen" component={SplashScreen} options={({navigation,route})=>({
-          headerShown:false
+        <Stack.Screen name="SplashScreen" component={SplashScreen} options={({ navigation, route }) => ({
+          headerShown: false
         })} />
-        <Stack.Screen name="Login" component={Login} options={({navigation,route})=>({
-          headerShown:false
+        <Stack.Screen name="Login" component={Login} options={({ navigation, route }) => ({
+          headerShown: false
         })} />
-        <Stack.Screen name="Register" component={Register} options={({navigation,route})=>({
-          headerShown:false
+        <Stack.Screen name="Register" component={Register} options={({ navigation, route }) => ({
+          headerShown: false
         })} />
-        <Stack.Screen name="SearchResult" component={SearchResult} options={({navigation,route})=>({
-          headerShown:true,
-          title:'Search Result'
+        <Stack.Screen name="DetailHotel" component={DetailHotel} options={({ navigation, route }) => ({
+          headerShown: true,
+          headerTransparent: true,
+          headerShadowVisible: false,
+          headerTitle: '',
+          headerRight: () => (
+            <TouchableOpacity
+              style={[GlobalStyles.cardBody, { borderRadius: 100 }]}
+            >
+              <Ant name="hearto" size={20} color={GlobalVar.greyColor} />
+            </TouchableOpacity>
+          )
+        })} />
+        <Stack.Screen name="SearchResult" component={SearchResult} options={({ navigation, route }) => ({
+          headerShown: true,
+          title: 'Search Result'
         })} />
       </Stack.Navigator>
     </NavigationContainer>

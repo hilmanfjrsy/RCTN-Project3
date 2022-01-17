@@ -24,6 +24,7 @@
     "react-native-fast-image": "^8.5.11",
     "react-native-paper": "^4.11.1",
     "react-native-pure-jwt": "^3.0.0",
+    "react-native-render-html": "^6.3.3",
     "react-native-safe-area-context": "^3.3.2",
     "react-native-screens": "^3.10.1",
     "react-native-toast-message": "^2.1.1",

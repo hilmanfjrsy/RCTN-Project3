@@ -11,6 +11,8 @@ import FA from 'react-native-vector-icons/FontAwesome'
 import { getRating } from '../Utils/GlobalFunc';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Loading from '../Components/Loading';
+import IconText from '../Components/IconText';
+import RenderPrice from '../Components/RenderPrice';
 
 export default function SearchResult({ navigation, route }) {
   const params = route.params.parameter
@@ -38,8 +40,8 @@ export default function SearchResult({ navigation, route }) {
     getSearch()
   }, [])
 
-  if(isLoading){
-    return <Loading/>
+  if (isLoading) {
+    return <Loading />
   }
 
   return (
@@ -84,18 +86,23 @@ export default function SearchResult({ navigation, route }) {
   )
 
   function RenderHotel({ item, index }) {
-
-    function renderPrice(current, old) {
-      return (
-        <View>
-          {old && <Text style={[GlobalStyles.fontSecondary, { textDecorationLine: 'line-through', marginBottom: 3 }]}>{old}</Text>}
-          <Text style={[GlobalStyles.fontPrimary, { fontWeight: 'bold', fontSize: 16, color: GlobalVar.primaryColor }]}>{current}</Text>
-        </View>
-      )
+    let parameter = {
+      id: item.id,
+      checkIn: params.checkIn,
+      checkOut: params.checkOut,
+      adults1: params.adults1,
+      currency: 'IDR',
+      locale: 'en_US'
     }
 
     return (
       <TouchableOpacity
+        onPress={() => {
+          navigation.navigate('DetailHotel', { 
+            parameter, 
+            image: item.optimizedThumbUrls.srpDesktop,
+          })
+        }}
         style={[GlobalStyles.cardBody, { padding: 0, marginTop: 15 }]}
       >
         <View>
@@ -117,20 +124,29 @@ export default function SearchResult({ navigation, route }) {
             <Text style={[GlobalStyles.fontSecondary, { marginBottom: 5, paddingVertical: 3, fontWeight: '500', color: '#664d03', backgroundColor: '#fff3cd', paddingHorizontal: 5 }]}>{item.messaging.scarcity}</Text>
           </View>}
           <Text style={[GlobalStyles.fontPrimary, { fontWeight: 'bold' }]} numberOfLines={2} lineBreakMode='tail' >{item.name}</Text>
-          <View style={[GlobalStyles.row, { marginTop: 5 }]}>
-            <Ion name='ios-location-sharp' size={12} color={GlobalVar.primaryColor} />
-            <Text style={[GlobalStyles.fontSecondary, { marginLeft: 5 }]}>{item.address.streetAddress}</Text>
-          </View>
+          <IconText
+            icon="Ionicons"
+            name={'ios-location-sharp'}
+            size={12}
+            text={item.address.locality}
+          />
 
           <View style={[GlobalStyles.spaceBetween, { marginTop: 15 }]}>
             <View>
-              {item.landmarks.length > 0 && <View style={[GlobalStyles.row, { marginBottom: 3 }]}>
-                <FA name='location-arrow' size={12} color={GlobalVar.primaryColor} />
-                <Text style={[GlobalStyles.fontSecondary, { marginLeft: 5 }]}>{item.landmarks[0].distance + ' to ' + item.landmarks[0].label}</Text>
-              </View>}
+              {item.landmarks.length > 0 &&
+                <IconText
+                  icon="FontAwesome"
+                  name={'location-arrow'}
+                  size={12}
+                  text={item.landmarks[0].distance + ' to ' + item.landmarks[0].label}
+                />
+              }
               {getRating(item.starRating, 12)}
             </View>
-            {renderPrice(item.ratePlan.price.current, item.ratePlan.price.old)}
+            <RenderPrice
+              current={item.ratePlan.price.current}
+              old={item.ratePlan.price.old}
+            />
           </View>
         </View>
       </TouchableOpacity>
