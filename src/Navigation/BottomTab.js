@@ -9,6 +9,7 @@ import Search from '../Screens';
 import Setting from '../Screens/Setting';
 import NotLogged from '../Components/NotLogged';
 import { checkExpireToken } from '../Utils/GlobalFunc';
+import Profile from '../Screens/Profile';
 
 const Tab = createBottomTabNavigator();
 
@@ -32,11 +33,12 @@ export default function BottomTab() {
       screenOptions={{
         tabBarActiveTintColor: GlobalVar.primaryColor,
       }}
+
     >
       <Tab.Screen name="Search" component={Search}
         listeners={({ navigation, route }) => ({
           tabPress: e => {
-            checkExpireToken()
+            checkExpireToken(navigation)
           },
         })}
         options={({ navigation, route }) => ({
@@ -48,7 +50,7 @@ export default function BottomTab() {
       <Tab.Screen name="Favorite" component={Search}
         listeners={({ navigation, route }) => ({
           tabPress: e => {
-            checkExpireToken()
+            checkExpireToken(navigation)
           },
         })}
         options={({ navigation, route }) => ({
@@ -57,14 +59,15 @@ export default function BottomTab() {
             <FA name={'heart'} color={color} size={20} />
           )
         })} />
-      <Tab.Screen name="Profile" component={Search}
+      <Tab.Screen name="Profile" component={isSignin ? Profile : NotLogged}
         listeners={({ navigation, route }) => ({
           tabPress: e => {
-            checkExpireToken()
+            checkExpireToken(navigation)
           },
         })}
         options={({ navigation, route }) => ({
           title: 'Profile',
+          headerShown:false,
           tabBarIcon: ({ focused, color }) => (
             <FA name={'user'} color={color} size={20} />
           )
@@ -72,11 +75,12 @@ export default function BottomTab() {
       <Tab.Screen name="Setting" component={isSignin ? Setting : NotLogged}
         listeners={({ navigation, route }) => ({
           tabPress: e => {
-            checkExpireToken()
+            checkExpireToken(navigation)
           },
         })}
         options={({ navigation, route }) => ({
           title: 'Setting',
+          headerShown:false,
           tabBarIcon: ({ focused, color }) => (
             <FA name={'gear'} color={color} size={20} />
           )

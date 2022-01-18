@@ -1,82 +1,94 @@
 import React, { Component } from 'react';
-import { SafeAreaView, ScrollView, Text, View, TouchableOpacity } from 'react-native';
+import { SafeAreaView, ScrollView, Text, View, TouchableOpacity, Alert } from 'react-native';
 import ButtonPrimary from '../../Components/ButtonPrimary';
 import GlobalStyles from '../../Utils/GlobalStyles';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Toast from 'react-native-toast-message';
 import FA from 'react-native-vector-icons/FontAwesome';
-
+import Ion from 'react-native-vector-icons/Ionicons'
+import GlobalVar from '../../Utils/GlobalVar';
+import RenderTextHorizontal from '../../Components/RenderTextHorizontal';
 export default function Setting({ navigation, route }) {
+  const menu = [
+    {
+      onPress: () => console.log('sd'),
+      text: 'Notifications',
+      icon: 'notifications'
+    },
+    {
+      disabled: true,
+      text: 'Country',
+      rightText: 'Indonesia'
+    },
+    {
+      disabled: true,
+      text: 'Currency',
+      rightText: 'IDR'
+    },
+    {
+      onPress: () => console.log('sd'),
+      text: 'Term of Services',
+      icon: 'chevron-forward'
+    },
+    {
+      onPress: () => console.log('sd'),
+      text: 'Privacy Policy',
+      icon: 'chevron-forward'
+    },
+    {
+      onPress: () => console.log('sd'),
+      text: 'Give us Feedback',
+      icon: 'chevron-forward'
+    },
+    {
+      onPress: handleLogout,
+      text: 'Logout',
+      icon: 'ios-power',
+      color: 'firebrick'
+    }
+  ]
   async function handleLogout() {
-    await AsyncStorage.removeItem('token')
-    Toast.show({
-      type: 'success',
-      text1: 'Berhasil logout',
-    });
-    navigation.reset({
-      index: 0,
-      routes: [{ name: 'SplashScreen' }],
-    });
+    console.log('asd')
+    Alert.alert(
+      "Confirmation",
+      "You want to logout?",
+      [
+        {
+          text: "Cancel",
+          onPress: () => console.log("Cancel Pressed"),
+          style: "cancel"
+        },
+        {
+          text: "OK", onPress: async () => {
+            await AsyncStorage.removeItem('token')
+            Toast.show({
+              type: 'success',
+              text1: 'Berhasil logout',
+            });
+            navigation.reset({
+              index: 0,
+              routes: [{ name: 'SplashScreen' }],
+            });
+          }
+        }
+      ]
+    );
   }
   return (
-    <SafeAreaView style={[GlobalStyles.container, {}]}>
+    <SafeAreaView style={[GlobalStyles.container, { backgroundColor: 'white' }]}>
       <ScrollView>
-        <View style={GlobalStyles.settingContainer}>
-          <Text style={GlobalStyles.settingTitle}>MY ACCOUNT</Text>
-          <View style={GlobalStyles.settingSection}>
-            <Text style={GlobalStyles.fontSecondary}>First Name</Text>
-            <Text style={GlobalStyles.fontSecondary}>Gilang</Text>
-          </View>
-          <View style={GlobalStyles.settingSection}>
-            <Text style={GlobalStyles.fontSecondary}>Last Name</Text>
-            <Text style={GlobalStyles.fontSecondary}>fauzi</Text>
-          </View>
-          <View style={GlobalStyles.settingSection}>
-            <Text style={GlobalStyles.fontSecondary}>Email</Text>
-            <Text style={GlobalStyles.fontSecondary}>gilang@gmail.com</Text>
-          </View>
-          <View style={GlobalStyles.settingSection}>
-            <Text style={GlobalStyles.fontSecondary}>Gender</Text>
-            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-              <Text style={[GlobalStyles.fontSecondary, { marginRight: 5 }]}>Male</Text>
-              <FA name='chevron-right' color={'grey'} size={15}></FA>
-            </View>
-          </View>
-          <View style={GlobalStyles.settingSection}>
-            <Text style={GlobalStyles.fontSecondary}>Lenguage</Text>
-            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-              {/* <Text style={[GlobalStyles.fontSecondary, {marginRight:5}] }>Male</Text> */}
-              <FA name='chevron-right' color={'grey'} size={15}></FA>
-            </View>
-          </View>
-          <View style={GlobalStyles.settingSection}>
-            <Text style={GlobalStyles.fontSecondary}>Search History</Text>
-            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-              {/* <Text style={[GlobalStyles.fontSecondary, {marginRight:5}] }>Male</Text> */}
-              <FA name='chevron-right' color={'grey'} size={15}></FA>
-            </View>
-          </View>
-          <View style={[GlobalStyles.settingSection, { borderBottomWidth: 0 }]}>
-            <Text style={GlobalStyles.fontSecondary}>Report and Problem</Text>
-            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-              {/* <Text style={[GlobalStyles.fontSecondary, {marginRight:5}] }>Male</Text> */}
-              <FA name='chevron-right' color={'grey'} size={15}></FA>
-            </View>
-          </View>
-          {/* <ButtonPrimary onPress={handleLogout} text={'Logout'}/> */}
-        </View>
-        <View style={[GlobalStyles.settingContainer, { marginTop: 0 }]}>
-          <Text style={GlobalStyles.settingTitle}>SUPPORT</Text>
-          <View style={[GlobalStyles.settingSection, { flexDirection: 'column' }]}>
-            <Text style={GlobalStyles.fontSecondary}>Report and Problem</Text>
-          </View>
-          <View style={[GlobalStyles.settingSection, { borderBottomWidth: 0, flexDirection: 'column' }]}>
-            <TouchableOpacity onPress={handleLogout}>
-              <Text style={[GlobalStyles.fontSecondary, { color: 'firebrick', fontWeight:'bold' }]}>Log Out</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-        {/* <ButtonPrimary onPress={handleLogout} text={'Logout'}/> */}
+        <Text style={[GlobalStyles.fontPrimary, { fontSize: 30, fontWeight: 'bold', marginBottom: 30 }]}>Settings</Text>
+        {menu.map((item, index) =>
+          <RenderTextHorizontal
+            key={index}
+            onPress={item.onPress}
+            text={item.text}
+            icon={item.icon}
+            color={item.color}
+            rightText={item.rightText}
+            disabled={item.disabled}
+          />
+        )}
       </ScrollView>
     </SafeAreaView>
   )

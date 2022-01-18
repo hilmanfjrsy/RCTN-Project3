@@ -100,11 +100,12 @@ export async function encryptToken(params = {}, name = null) {
     .then(async v => {
       console.log(v)
       await AsyncStorage.setItem(name, v)
+      await AsyncStorage.setItem('profile', JSON.stringify(params))
     }) // token as the only argument
     .catch(console.error); // possible errors
 }
 
-export async function decodeToken(token = '') {
+export async function decodeToken(token = '',navigation) {
   decode(
     token, // the token
     GlobalVar.secretKey, // the secret
@@ -120,18 +121,18 @@ export async function decodeToken(token = '') {
         text2: e.message
       });
       await AsyncStorage.removeItem('token')
-      // navigation.reset({
-      //   index: 0,
-      //   routes: [{ name: 'Login' }],
-      // });
+      navigation.reset({
+        index: 0,
+        routes: [{ name: 'SplashScreen' }],
+      });
       return null
     });
 }
 
-export async function checkExpireToken() {
+export async function checkExpireToken(navigation) {
   let token = await AsyncStorage.getItem('token')
   if (token) {
-    let user = await decodeToken(token)
+    let user = await decodeToken(token,navigation)
     if (user) {
       await AsyncStorage.setItem('profile', user)
     }
@@ -177,7 +178,7 @@ export const getRating = (total = 0, fontSize = 10) => {
   }
 
   return (
-    <View style={[GlobalStyles.row,{}]}>
+    <View style={[GlobalStyles.row, {}]}>
       {getStars(total).map((value, idx) => {
         return (
           <View key={idx} className="list-inline-item m-0">

@@ -14,6 +14,7 @@ import GlobalVar from '../Utils/GlobalVar';
 
 import Ant from 'react-native-vector-icons/AntDesign'
 import GlobalStyles from '../Utils/GlobalStyles';
+import EditProfile from '../Screens/Profile/EditProfile';
 
 const Stack = createNativeStackNavigator();
 
@@ -53,6 +54,11 @@ export default function BaseRoute({ navigation }) {
         <Stack.Screen name="SearchResult" component={SearchResult} options={({ navigation, route }) => ({
           headerShown: true,
           title: 'Search Result'
+        })} />
+        <Stack.Screen name="EditProfile" component={EditProfile} options={({ navigation, route }) => ({
+          headerShown: true,
+          headerShadowVisible: false,
+          headerTitle: '',
         })} />
       </Stack.Navigator>
     </NavigationContainer>
