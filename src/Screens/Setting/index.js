@@ -1,17 +1,14 @@
 import React, { Component } from 'react';
 import { SafeAreaView, ScrollView, Text, View, TouchableOpacity, Alert } from 'react-native';
-import ButtonPrimary from '../../Components/ButtonPrimary';
 import GlobalStyles from '../../Utils/GlobalStyles';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Toast from 'react-native-toast-message';
-import FA from 'react-native-vector-icons/FontAwesome';
-import Ion from 'react-native-vector-icons/Ionicons'
-import GlobalVar from '../../Utils/GlobalVar';
 import RenderTextHorizontal from '../../Components/RenderTextHorizontal';
+
 export default function Setting({ navigation, route }) {
   const menu = [
     {
-      onPress: () => console.log('sd'),
+      onPress: () => handleComingSoon(),
       text: 'Notifications',
       icon: 'notifications'
     },
@@ -26,17 +23,17 @@ export default function Setting({ navigation, route }) {
       rightText: 'IDR'
     },
     {
-      onPress: () => console.log('sd'),
+      onPress: () => handleComingSoon(),
       text: 'Term of Services',
       icon: 'chevron-forward'
     },
     {
-      onPress: () => console.log('sd'),
+      onPress: () => handleComingSoon(),
       text: 'Privacy Policy',
       icon: 'chevron-forward'
     },
     {
-      onPress: () => console.log('sd'),
+      onPress: () => handleComingSoon(),
       text: 'Give us Feedback',
       icon: 'chevron-forward'
     },
@@ -47,6 +44,14 @@ export default function Setting({ navigation, route }) {
       color: 'firebrick'
     }
   ]
+
+  function handleComingSoon() {
+    Toast.show({
+      type: 'info',
+      text1: 'Coming Soon',
+      text2: 'Fitur ini masih dalam tahap pengembangan',
+    });
+  }
   async function handleLogout() {
     console.log('asd')
     Alert.alert(
@@ -61,6 +66,7 @@ export default function Setting({ navigation, route }) {
         {
           text: "OK", onPress: async () => {
             await AsyncStorage.removeItem('token')
+            await AsyncStorage.removeItem('profile')
             Toast.show({
               type: 'success',
               text1: 'Berhasil logout',

@@ -3,16 +3,12 @@ import React, { Component, useEffect, useState } from 'react';
 import { ScrollView, Text, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
 import GlobalStyles from '../Utils/GlobalStyles';
 import GlobalVar from '../Utils/GlobalVar';
-import FastImage from 'react-native-fast-image';
 
 import Ion from 'react-native-vector-icons/Ionicons'
-import Ant from 'react-native-vector-icons/AntDesign'
-import FA from 'react-native-vector-icons/FontAwesome'
-import { getRating } from '../Utils/GlobalFunc';
+
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Loading from '../Components/Loading';
-import IconText from '../Components/IconText';
-import RenderPrice from '../Components/RenderPrice';
+import RenderHotel from '../Components/RenderHotel';
 
 export default function SearchResult({ navigation, route }) {
   const params = route.params.parameter
@@ -30,7 +26,6 @@ export default function SearchResult({ navigation, route }) {
         setResult(res.data.data.body)
       }
     } else {
-      // console.log('sini',)
       setResult(JSON.parse(r))
     }
     setIsLoading(false)
@@ -61,7 +56,9 @@ export default function SearchResult({ navigation, route }) {
             </View>
           </View>
 
-          <TouchableOpacity style={{ marginTop: 15, paddingVertical: 10, borderTopWidth: 0.5, borderTopColor: GlobalVar.greyColor, alignItems: 'center' }}>
+          <TouchableOpacity
+            onPress={() => navigation.goBack()}
+            style={{ marginTop: 15, paddingVertical: 10, borderTopWidth: 0.5, borderTopColor: GlobalVar.greyColor, alignItems: 'center' }}>
             <Text style={[GlobalStyles.fontPrimary, { fontWeight: 'bold', fontSize: 14, color: GlobalVar.primaryColor }]}>Change</Text>
           </TouchableOpacity>
         </View>
@@ -78,78 +75,10 @@ export default function SearchResult({ navigation, route }) {
           </View>
 
           <View>
-            {result?.searchResults.results.map((item, index) => <RenderHotel key={String(index)} index={index} item={item} />)}
+            {result?.searchResults.results.map((item, index) => <RenderHotel key={String(index)} navigation={navigation} index={index} params={params} item={item} />)}
           </View>
         </View>
       </View>
     </ScrollView>
   )
-
-  function RenderHotel({ item, index }) {
-    let parameter = {
-      id: item.id,
-      checkIn: params.checkIn,
-      checkOut: params.checkOut,
-      adults1: params.adults1,
-      currency: 'IDR',
-      locale: 'en_US'
-    }
-
-    return (
-      <TouchableOpacity
-        onPress={() => {
-          navigation.navigate('DetailHotel', { 
-            parameter, 
-            image: item.optimizedThumbUrls.srpDesktop,
-          })
-        }}
-        style={[GlobalStyles.cardBody, { padding: 0, marginTop: 15 }]}
-      >
-        <View>
-          <FastImage
-            style={{ height: 150, width: '100%', borderTopRightRadius: 5, borderTopLeftRadius: 5 }}
-            source={{ uri: item.optimizedThumbUrls.srpDesktop }}
-            resizeMode='cover'
-          />
-          <TouchableWithoutFeedback>
-            <TouchableOpacity
-              hitSlop={GlobalVar.hitSlop}
-              style={[GlobalStyles.cardBody, { position: 'absolute', right: 10, top: 5, }]}>
-              <Ant name={'hearto'} size={20} color={GlobalStyles.greyColor} />
-            </TouchableOpacity>
-          </TouchableWithoutFeedback>
-        </View>
-        <View style={{ padding: 10, }}>
-          {item.messaging.scarcity && <View style={[GlobalStyles.row]}>
-            <Text style={[GlobalStyles.fontSecondary, { marginBottom: 5, paddingVertical: 3, fontWeight: '500', color: '#664d03', backgroundColor: '#fff3cd', paddingHorizontal: 5 }]}>{item.messaging.scarcity}</Text>
-          </View>}
-          <Text style={[GlobalStyles.fontPrimary, { fontWeight: 'bold' }]} numberOfLines={2} lineBreakMode='tail' >{item.name}</Text>
-          <IconText
-            icon="Ionicons"
-            name={'ios-location-sharp'}
-            size={12}
-            text={item.address.locality}
-          />
-
-          <View style={[GlobalStyles.spaceBetween, { marginTop: 15 }]}>
-            <View>
-              {item.landmarks.length > 0 &&
-                <IconText
-                  icon="FontAwesome"
-                  name={'location-arrow'}
-                  size={12}
-                  text={item.landmarks[0].distance + ' to ' + item.landmarks[0].label}
-                />
-              }
-              {getRating(item.starRating, 12)}
-            </View>
-            <RenderPrice
-              current={item.ratePlan.price.current}
-              old={item.ratePlan.price.old}
-            />
-          </View>
-        </View>
-      </TouchableOpacity>
-    )
-  }
 }

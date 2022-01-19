@@ -10,6 +10,7 @@ import Setting from '../Screens/Setting';
 import NotLogged from '../Components/NotLogged';
 import { checkExpireToken } from '../Utils/GlobalFunc';
 import Profile from '../Screens/Profile';
+import Wishlist from '../Screens/Wishlist';
 
 const Tab = createBottomTabNavigator();
 
@@ -47,7 +48,7 @@ export default function BottomTab() {
             <FA name={'search'} color={color} size={20} />
           )
         })} />
-      <Tab.Screen name="Favorite" component={Search}
+      <Tab.Screen name="Favorite" component={isSignin ? Wishlist : NotLogged}
         listeners={({ navigation, route }) => ({
           tabPress: e => {
             checkExpireToken(navigation)
@@ -55,6 +56,7 @@ export default function BottomTab() {
         })}
         options={({ navigation, route }) => ({
           title: 'Favorite',
+          headerShown:false,
           tabBarIcon: ({ focused, color }) => (
             <FA name={'heart'} color={color} size={20} />
           )

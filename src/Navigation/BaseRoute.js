@@ -53,7 +53,9 @@ export default function BaseRoute({ navigation }) {
         })} />
         <Stack.Screen name="SearchResult" component={SearchResult} options={({ navigation, route }) => ({
           headerShown: true,
-          title: 'Search Result'
+          headerTransparent:true,
+          headerShadowVisible:false,
+          title: ''
         })} />
         <Stack.Screen name="EditProfile" component={EditProfile} options={({ navigation, route }) => ({
           headerShown: true,
