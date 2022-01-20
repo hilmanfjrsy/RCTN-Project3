@@ -84,8 +84,8 @@ export default function EditProfile({ navigation, route }) {
     await AsyncStorage.setItem('profile', JSON.stringify(newUpdate))
     Toast.show({
       type: 'success',
-      text1: 'Berhasil',
-      text2: 'Profile telah diperbarui',
+      text1: 'Sucess',
+      text2: 'Profile has been updated',
     });
     navigation.goBack()
   }

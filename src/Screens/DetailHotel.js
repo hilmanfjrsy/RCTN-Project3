@@ -140,8 +140,8 @@ export default function DetailHotel({ navigation, route }) {
     } else {
       Toast.show({
         type: 'error',
-        text1: 'Anda belum login',
-        text2: 'Harap login terlebih dahulu',
+        text1: "You're not logged in",
+        text2: 'Please login first',
       });
     }
   }

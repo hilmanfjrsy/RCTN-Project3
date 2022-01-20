@@ -102,14 +102,14 @@ export default function Booking({ navigation, route }) {
       navigation.goBack()
       Toast.show({
         type: 'success',
-        text1: 'Berhasil',
-        text2: route.params.detail.propertyDescription.name +' telah Anda Booking',
+        text1: 'Success',
+        text2: route.params.detail.propertyDescription.name +' has booked',
       });
     } else {
       Toast.show({
         type: 'error',
-        text1: 'Data belum lengkap',
-        text2: 'Harap lengkapi data pribadi Anda',
+        text1: 'Profile is not complete',
+        text2: 'Please complete your profile',
       });
       navigation.navigate('EditProfile', { profile })
     }

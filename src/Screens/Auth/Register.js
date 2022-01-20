@@ -33,12 +33,14 @@ const Register = ({ navigation, route }) => {
           if (checkUser.username == username) {
             Toast.show({
               type: 'error',
-              text1: 'Username telah digunakan',
+              text1: 'Username has been used',
+              text2: 'Please use another username',
             })
           } else if (checkUser.email == email) {
             Toast.show({
               type: 'error',
-              text1: 'Email telah digunakan',
+              text1: 'Email has been used',
+              text2: 'Please use another email',
             })
           }
         } else {
@@ -50,7 +52,8 @@ const Register = ({ navigation, route }) => {
             await AsyncStorage.setItem('user', JSON.stringify(temp))
             Toast.show({
               type: 'success',
-              text1: 'Berhasil mendaftar',
+              text1: 'Registered successfully',
+              text2: 'Now you can use your account',
             })
             route.params.getDataUser()
             navigation.navigate('Login')
@@ -60,13 +63,15 @@ const Register = ({ navigation, route }) => {
       } else {
         Toast.show({
           type: 'error',
-          text1: 'Email tidak valid',
+          text1: 'Email not valid',
+          text1: 'Please check your email',
         })
       }
     } else {
       Toast.show({
         type: 'error',
-        text1: 'Harap isi semua form',
+        text1: 'Please fill out all forms',
+        text2: 'Please check all forms',
       })
     }
   }

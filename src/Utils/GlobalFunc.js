@@ -117,7 +117,7 @@ export async function decodeToken(token = '', navigation) {
     .catch(async e => {
       Toast.show({
         type: 'error',
-        text1: 'Sesi telah habis',
+        text1: 'Your session has expired',
         text2: e.message
       });
       await AsyncStorage.removeItem('token')
@@ -204,7 +204,7 @@ export async function handleWishlish(getdata = () => { }, username, item, parame
       checkWishlist.splice(idx, 1)
       Toast.show({
         type: 'error',
-        text1: 'Anda telah menghapus dari favorite',
+        text1: 'You have removed from favorites',
         text2: item.name,
       });
     } else {
@@ -212,7 +212,7 @@ export async function handleWishlish(getdata = () => { }, username, item, parame
       checkWishlist.push(item)
       Toast.show({
         type: 'success',
-        text1: 'Anda telah menambahkan ke favorite',
+        text1: 'You have added to favorites',
         text2: item.name,
       });
     }
@@ -221,8 +221,8 @@ export async function handleWishlish(getdata = () => { }, username, item, parame
   } else {
     Toast.show({
       type: 'error',
-      text1: 'Anda belum login',
-      text2: 'Harap login terlebih dahulu',
+      text1: "You're not logged in",
+      text2: 'Please login first',
     });
   }
 }

@@ -33,8 +33,8 @@ const Login = ({ navigation }) => {
           encryptToken(find,'token')
           Toast.show({
             type: 'success',
-            text1: 'Berhasil login',
-            text2: 'Sesi Anda hanya 15 menit, setelah itu Anda akan keluar secara otomatis',
+            text1: 'Login Success',
+            text2: 'Your session is only 15 minutes, after that you will be logged out automatically',
           });
           navigation.reset({
             index: 0,
@@ -43,22 +43,22 @@ const Login = ({ navigation }) => {
         } else {
           Toast.show({
             type: 'error',
-            text1: 'Username atau password salah!',
-            text2: 'Harap cek kembali username atau password Anda',
+            text1: 'Wrong username or password!',
+            text2: 'Please recheck your username or password',
           });
         }
       } else {
         Toast.show({
           type: 'error',
-          text1: 'User tidak ditemukan!',
-          text2: 'Anda belum terdaftar di sistem Kami. Harap daftar terlebih dahulu',
+          text1: 'User not found!',
+          text2: 'You are not registered in our system. Please register first',
         });
       }
     } else {
       Toast.show({
         type: 'error',
-        text1: 'Harap isi semua form',
-        text2: 'Harap perhatikan semua form',
+        text1: 'Please fill out all forms',
+        text2: 'Please check all forms',
       });
     }
   }

@@ -49,7 +49,7 @@ export default function Setting({ navigation, route }) {
     Toast.show({
       type: 'info',
       text1: 'Coming Soon',
-      text2: 'Fitur ini masih dalam tahap pengembangan',
+      text2: 'This feature is still under development',
     });
   }
   async function handleLogout() {
@@ -69,7 +69,7 @@ export default function Setting({ navigation, route }) {
             await AsyncStorage.removeItem('profile')
             Toast.show({
               type: 'success',
-              text1: 'Berhasil logout',
+              text1: 'Logout successfully',
             });
             navigation.reset({
               index: 0,
