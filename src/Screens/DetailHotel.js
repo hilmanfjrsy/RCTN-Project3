@@ -22,18 +22,12 @@ export default function DetailHotel({ navigation, route }) {
 
   async function getDetails() {
     setIsLoading(true)
-    let checkData = await AsyncStorage.getItem('detail')
-    if (checkData) {
-      let d = JSON.parse(checkData)
-      setDetail(d.data.body)
-      setTransportation(d.transportation)
-    } else {
-      let res = await getRequest('properties/get-details', params)
-      if (res) {
-        setDetail(res.data.data.body)
-        setTransportation(res.data.transportation)
-        await AsyncStorage.setItem('detail', JSON.stringify(res.data))
-      }
+    let res = await getRequest('properties/get-details', params)
+    if (res) {
+      setDetail(res.data.data.body)
+      setTransportation(res.data.transportation)
+      await AsyncStorage.setItem('detail', JSON.stringify(res.data))
+      setIsLoading(false)
     }
     setIsLoading(false)
   }

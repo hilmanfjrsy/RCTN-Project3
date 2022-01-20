@@ -19,15 +19,10 @@ export default function SearchResult({ navigation, route }) {
 
   async function getSearch() {
     setIsLoading(true)
-    let r = await AsyncStorage.getItem('searchResult')
-    if (!r) {
-      let res = await getRequest('properties/list', params);
-      if (res) {
-        await AsyncStorage.setItem('searchResult', JSON.stringify(res.data.data.body));
-        setResult(res.data.data.body)
-      }
-    } else {
-      setResult(JSON.parse(r))
+    let res = await getRequest('properties/list', params);
+    if (res) {
+      setResult(res.data.data.body)
+      setIsLoading(false)
     }
     setIsLoading(false)
   }
@@ -43,7 +38,7 @@ export default function SearchResult({ navigation, route }) {
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
       <View style={[GlobalStyles.container, {}]}>
-      <Text style={[GlobalStyles.fontPrimary, { fontSize: 30, fontWeight: 'bold', marginVertical: 30 }]}>Search Result</Text>
+        <Text style={[GlobalStyles.fontPrimary, { fontSize: 30, fontWeight: 'bold', marginVertical: 30 }]}>Search Result</Text>
         <View style={[GlobalStyles.cardBody, { marginBottom: 15 }]}>
           <Text style={[GlobalStyles.fontSecondary, { fontSize: 14 }]}>Location</Text>
           <Text style={[GlobalStyles.fontPrimary, { fontWeight: '500' }]}>{result?.header}</Text>

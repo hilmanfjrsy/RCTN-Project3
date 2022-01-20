@@ -8,7 +8,7 @@ export default function RenderPrice({ current, old, label, taxInfo, style = {}, 
     <View style={{ ...style }}>
       {old && <Text style={[GlobalStyles.fontSecondary, { textDecorationLine: 'line-through', marginBottom: 3 }]}>{old}</Text>}
       <Text style={[GlobalStyles.fontPrimary, { fontWeight: 'bold', fontSize: size, color: GlobalVar.primaryColor }]}>{current}</Text>
-      {label && <Text style={[GlobalStyles.fontSecondary, { fontSize:10 }]}>{taxInfo ? 'Sudah termasuk pajak' : 'Belum termasuk pajak'}</Text>}
+      {label && <Text style={[GlobalStyles.fontSecondary, { fontSize:10 }]}>{taxInfo ? 'Including tax' : 'Not including tax'}</Text>}
     </View>
   )
 }

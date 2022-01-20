@@ -54,7 +54,7 @@ export default function Booking({ navigation, route }) {
           <RenderTextHorizontal
             text='Full Name'
             disabled
-            rightText={profile?.firstName + ' ' + profile?.lastName}
+            rightText={profile?.firstName + ' ' + profile?.lastName }
           />
           <RenderTextHorizontal
             text='Email'
@@ -103,7 +103,7 @@ export default function Booking({ navigation, route }) {
       Toast.show({
         type: 'success',
         text1: 'Success',
-        text2: route.params.detail.propertyDescription.name +' has booked',
+        text2: route.params.detail.propertyDescription.name + ' has booked',
       });
     } else {
       Toast.show({

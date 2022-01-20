@@ -5,6 +5,7 @@ import { Avatar } from 'react-native-paper';
 import RenderHotel from '../../Components/RenderHotel';
 import GlobalStyles from '../../Utils/GlobalStyles';
 import GlobalVar from '../../Utils/GlobalVar';
+import NotLogged from '../../Components/NotLogged';
 
 export default function Profile({ navigation, route }) {
   const [profile, setProfile] = useState(null)
@@ -13,8 +14,8 @@ export default function Profile({ navigation, route }) {
 
   async function getProfile() {
     let prof = JSON.parse(await AsyncStorage.getItem('profile'))
-    let book = JSON.parse(await AsyncStorage.getItem('booking_'+prof.username)) || []
-    let wish = JSON.parse(await AsyncStorage.getItem('wishlist_'+prof.username)) || []
+    let book = JSON.parse(await AsyncStorage.getItem('booking_' + prof.username)) || []
+    let wish = JSON.parse(await AsyncStorage.getItem('wishlist_' + prof.username)) || []
     if (prof) {
       setProfile(prof)
     }
@@ -73,10 +74,13 @@ export default function Profile({ navigation, route }) {
             </View>
           </View>
         </View>
-
-        <View style={[GlobalStyles.cardBody, { borderRadius: 0 }]}>
-        {booking.map((item, index) => <RenderHotel key={String(index)} navigation={navigation} index={index} item={item} disabled={true} />)}
-        </View>
+        {booking.length == 0 ?
+          <NotLogged icon='box-open' text='Data tidak ditemukan' showButton={false} />
+          :
+          <View style={[GlobalStyles.cardBody, { borderRadius: 0 }]}>
+            {booking.map((item, index) => <RenderHotel key={String(index)} navigation={navigation} index={index} item={item} disabled={true} />)}
+          </View>
+        }
       </ScrollView>
     </SafeAreaView>
   )
