@@ -56,7 +56,7 @@ export default function Search({ navigation, route }) {
     setIsLoading(false)
   }
 
-  async function clickSearch(id = destinationId, start = new Date(), end = new Date(), adult = guest || 1, page = pageNumber) {
+  async function clickSearch(id = destinationId, start = new Date(), end = new Date().setDate(new Date().getDate() + 1), adult = guest || 1, page = pageNumber) {
     if (start && end && adult && id && page) {
       let params = {
         destinationId: id,
@@ -82,25 +82,8 @@ export default function Search({ navigation, route }) {
   }
   return (
     <SafeAreaView style={{ flex: 1 }} >
-      <DateRangePicker
-        open={showDate}
-        onChange={(v) => {
-          console.log('sda', v)
-          if (v.endDate) { setDateEnd(v.endDate); setShowDate(false) }
-          if (v.startDate) { setDateStart(v.startDate) }
-        }}
-        presetButtons
-        dayHeaders
-        endDate={dateEnd}
-        startDate={dateStart}
-        minDate={moment()}
-        displayedDate={moment()}
-        range
-        backdropStyle={{ height: '100%', }}
-      >
-        <Text></Text>
-      </DateRangePicker>
       <View style={[GlobalStyles.container, {}]}>
+        <Text style={[GlobalStyles.fontPrimary, { fontSize: 30, fontWeight: 'bold', marginBottom: 30 }]}>Search</Text>
         <View
           style={[
             { paddingVertical: 5 },
@@ -119,17 +102,17 @@ export default function Search({ navigation, route }) {
             items={kota}
             searchable={true}
             setOpen={setOpen}
-            setValue={(v)=>setDestinationId(v)}
+            setValue={(v) => setDestinationId(v)}
           // setItems={setItems}
           />
         </View>
 
-        <View style={[GlobalStyles.spaceBetween,{marginBottom:5}]}>
+        <View style={[GlobalStyles.spaceBetween, { marginBottom: 5 }]}>
           <View
             style={[
               GlobalStyles.cardBody,
               GlobalStyles.row,
-              { paddingHorizontal: 15, width: '48%',paddingVertical:13 },
+              { paddingHorizontal: 15, width: '48%', paddingVertical: 13 },
             ]}>
             <FA name="calendar" size={14} color={GlobalVar.primaryColor} />
             <TouchableOpacity
@@ -150,7 +133,7 @@ export default function Search({ navigation, route }) {
             style={[
               GlobalStyles.cardBody,
               GlobalStyles.row,
-              { paddingHorizontal: 15, width:'48%' },
+              { paddingHorizontal: 15, width: '48%' },
             ]}>
             <FA name="user" size={14} color={GlobalVar.primaryColor} />
             <TextInput
@@ -205,8 +188,7 @@ export default function Search({ navigation, route }) {
           </View>
         </View>
 
-
-        <ButtonPrimary onPress={()=>clickSearch()} text={'Search'} />
+        <ButtonPrimary onPress={() => clickSearch(destinationId, dateStart, dateEnd, guest, pageNumber)} text={'Search'} />
 
         <View>
           <Text
@@ -229,27 +211,26 @@ export default function Search({ navigation, route }) {
             />
           </TouchableOpacity>
         </View>
-        <View>
-          <Text
-            style={[
-              GlobalStyles.fontPrimary,
-              { fontSize: 18, fontWeight: 'bold', marginTop: 20 },
-            ]}>
-            Popular Destinations
-          </Text>
-
-          <FlatList
-            data={arr}
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            keyExtractor={(item, index) => String(index)}
-            contentContainerStyle={{ marginTop: 10, minHeight: 10 }}
-            renderItem={({ item, index }) => (
-              <RenderCity item={item} index={index} />
-            )}
-          />
-        </View>
       </View>
+
+      <DateRangePicker
+        open={showDate}
+        onChange={(v) => {
+          console.log('sda', v)
+          if (v.endDate) { setDateEnd(v.endDate); setShowDate(false) }
+          if (v.startDate) { setDateStart(v.startDate) }
+        }}
+        presetButtons
+        dayHeaders
+        endDate={dateEnd}
+        startDate={dateStart}
+        minDate={moment()}
+        displayedDate={moment()}
+        range
+        backdropStyle={{ height: '100%', }}
+      >
+        <Text></Text>
+      </DateRangePicker>
     </SafeAreaView>
   );
 

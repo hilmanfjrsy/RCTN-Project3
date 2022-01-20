@@ -1,7 +1,7 @@
 // In App.js in a new project
 
 import React, { useEffect } from 'react';
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, useNavigationContainerRef } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import BottomTab from './BottomTab';
 import SplashScreen from '../SplashScreen';
@@ -9,22 +9,19 @@ import Login from '../Screens/Auth/Login';
 import Register from '../Screens/Auth/Register';
 import SearchResult from '../Screens/SearchResult';
 import DetailHotel from '../Screens/DetailHotel';
-import { Text, TouchableOpacity } from 'react-native';
-import GlobalVar from '../Utils/GlobalVar';
 
-import Ant from 'react-native-vector-icons/AntDesign'
-import GlobalStyles from '../Utils/GlobalStyles';
 import EditProfile from '../Screens/Profile/EditProfile';
+import { checkExpireToken } from '../Utils/GlobalFunc';
+import Booking from '../Screens/Booking';
 
 const Stack = createNativeStackNavigator();
 
-export default function BaseRoute({ navigation }) {
-
-  useEffect(() => {
-    console.log('navigation')
-  }, [navigation])
+export default function BaseRoute() {
+  const navigationRef = useNavigationContainerRef();
   return (
-    <NavigationContainer>
+    <NavigationContainer
+      ref={navigationRef}
+      onStateChange={(state) => checkExpireToken(navigationRef)}>
       <Stack.Navigator initialRouteName={'SplashScreen'}>
         <Stack.Screen name="BottomTab" component={BottomTab} options={({ navigation, route }) => ({
           headerShown: false
@@ -42,23 +39,22 @@ export default function BaseRoute({ navigation }) {
           headerShown: true,
           headerTransparent: true,
           headerShadowVisible: false,
-          headerTitle: '',
-          headerRight: () => (
-            <TouchableOpacity
-              style={[GlobalStyles.cardBody, { borderRadius: 100 }]}
-            >
-              <Ant name="hearto" size={20} color={GlobalVar.greyColor} />
-            </TouchableOpacity>
-          )
+          headerTitle: ''
         })} />
         <Stack.Screen name="SearchResult" component={SearchResult} options={({ navigation, route }) => ({
           headerShown: true,
-          headerTransparent:true,
-          headerShadowVisible:false,
+          headerTransparent: true,
+          headerShadowVisible: false,
           title: ''
         })} />
         <Stack.Screen name="EditProfile" component={EditProfile} options={({ navigation, route }) => ({
           headerShown: true,
+          headerShadowVisible: false,
+          headerTitle: '',
+        })} />
+        <Stack.Screen name="Booking" component={Booking} options={({ navigation, route }) => ({
+          headerShown: true,
+          headerTransparent: true,
           headerShadowVisible: false,
           headerTitle: '',
         })} />

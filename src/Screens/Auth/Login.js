@@ -105,7 +105,7 @@ const Login = ({ navigation }) => {
       <Text style={[GlobalStyles.fontSecondary, { textAlign: 'center', fontSize: 14, marginTop: 110 }]}>
         Dont Have an account?{' '}
         <Text
-          onPress={() => navigation.navigate('Register', { getDataUser: getDataUser.bind(this) })}
+          onPress={() => navigation.navigate('Register', { getDataUser: ()=>getDataUser() })}
           style={[GlobalStyles.fontPrimary, { fontWeight: 'bold', color: GlobalVar.primaryColor }]}>
           Sign Up
         </Text>

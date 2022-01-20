@@ -9,6 +9,7 @@ import Ion from 'react-native-vector-icons/Ionicons'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Loading from '../Components/Loading';
 import RenderHotel from '../Components/RenderHotel';
+import { getRequest } from '../Utils/GlobalFunc';
 
 export default function SearchResult({ navigation, route }) {
   const params = route.params.parameter
@@ -42,6 +43,7 @@ export default function SearchResult({ navigation, route }) {
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
       <View style={[GlobalStyles.container, {}]}>
+      <Text style={[GlobalStyles.fontPrimary, { fontSize: 30, fontWeight: 'bold', marginVertical: 30 }]}>Search Result</Text>
         <View style={[GlobalStyles.cardBody, { marginBottom: 15 }]}>
           <Text style={[GlobalStyles.fontSecondary, { fontSize: 14 }]}>Location</Text>
           <Text style={[GlobalStyles.fontPrimary, { fontWeight: '500' }]}>{result?.header}</Text>
@@ -66,12 +68,6 @@ export default function SearchResult({ navigation, route }) {
         <View>
           <View style={[GlobalStyles.spaceBetween, {}]}>
             <Text style={[GlobalStyles.fontPrimary, { fontWeight: '500' }]}>{result?.searchResults.totalCount} hotels found</Text>
-            <TouchableOpacity
-              hitSlop={GlobalVar.hitSlop}
-              style={[GlobalStyles.row, {}]}>
-              <Text style={[GlobalStyles.fontPrimary, { fontWeight: '500', marginRight: 10 }]}>Filter</Text>
-              <Ion name="filter" size={20} color={GlobalVar.primaryColor} />
-            </TouchableOpacity>
           </View>
 
           <View>

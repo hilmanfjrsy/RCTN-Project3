@@ -44,6 +44,7 @@ export default function BottomTab() {
         })}
         options={({ navigation, route }) => ({
           title: 'Search',
+          headerShown:false,
           tabBarIcon: ({ focused, color }) => (
             <FA name={'search'} color={color} size={20} />
           )

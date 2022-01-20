@@ -105,7 +105,7 @@ export async function encryptToken(params = {}, name = null) {
     .catch(console.error); // possible errors
 }
 
-export async function decodeToken(token = '',navigation) {
+export async function decodeToken(token = '', navigation) {
   decode(
     token, // the token
     GlobalVar.secretKey, // the secret
@@ -121,6 +121,7 @@ export async function decodeToken(token = '',navigation) {
         text2: e.message
       });
       await AsyncStorage.removeItem('token')
+      await AsyncStorage.removeItem('profile')
       navigation.reset({
         index: 0,
         routes: [{ name: 'SplashScreen' }],
@@ -132,7 +133,7 @@ export async function decodeToken(token = '',navigation) {
 export async function checkExpireToken(navigation) {
   let token = await AsyncStorage.getItem('token')
   if (token) {
-    let user = await decodeToken(token,navigation)
+    let user = await decodeToken(token, navigation)
     if (user) {
       await AsyncStorage.setItem('profile', user)
     }
@@ -192,3 +193,36 @@ export const getRating = (total = 0, fontSize = 10) => {
     </View>
   );
 };
+
+export async function handleWishlish(getdata = () => { }, username, item, parameter, wishList,v) {
+  let checkToken = await AsyncStorage.getItem('token')
+  if (checkToken) {
+    let checkWishlist = JSON.parse(await AsyncStorage.getItem('wishlist_' + username)) || []
+
+    if (wishList) {
+      let idx = checkWishlist.findIndex(v => v.id == item.id)
+      checkWishlist.splice(idx, 1)
+      Toast.show({
+        type: 'error',
+        text1: 'Anda telah menghapus dari favorite',
+        text2: item.name,
+      });
+    } else {
+      item.params = parameter
+      checkWishlist.push(item)
+      Toast.show({
+        type: 'success',
+        text1: 'Anda telah menambahkan ke favorite',
+        text2: item.name,
+      });
+    }
+    await AsyncStorage.setItem('wishlist_' + username, JSON.stringify(checkWishlist))
+    await getdata(v)
+  } else {
+    Toast.show({
+      type: 'error',
+      text1: 'Anda belum login',
+      text2: 'Harap login terlebih dahulu',
+    });
+  }
+}

@@ -2,16 +2,27 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { Component, useEffect, useState } from 'react';
 import { SafeAreaView, ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { Avatar } from 'react-native-paper';
+import RenderHotel from '../../Components/RenderHotel';
 import GlobalStyles from '../../Utils/GlobalStyles';
 import GlobalVar from '../../Utils/GlobalVar';
 
 export default function Profile({ navigation, route }) {
   const [profile, setProfile] = useState(null)
+  const [wishlist, setWishlist] = useState([])
+  const [booking, setBooking] = useState([])
 
   async function getProfile() {
-    let prof = await AsyncStorage.getItem('profile')
+    let prof = JSON.parse(await AsyncStorage.getItem('profile'))
+    let book = JSON.parse(await AsyncStorage.getItem('booking_'+prof.username)) || []
+    let wish = JSON.parse(await AsyncStorage.getItem('wishlist_'+prof.username)) || []
     if (prof) {
-      setProfile(JSON.parse(prof))
+      setProfile(prof)
+    }
+    if (book) {
+      setBooking(book)
+    }
+    if (wish) {
+      setWishlist(wish)
     }
   }
 
@@ -45,7 +56,7 @@ export default function Profile({ navigation, route }) {
 
               <View style={[GlobalStyles.spaceBetween, { marginTop: 20 }]}>
                 <View style={{ alignItems: 'center' }}>
-                  <Text style={[GlobalStyles.fontPrimary, { fontWeight: '500', fontSize: 18 }]}>50</Text>
+                  <Text style={[GlobalStyles.fontPrimary, { fontWeight: '500', fontSize: 18 }]}>{booking.length}</Text>
                   <Text style={[GlobalStyles.fontSecondary, {}]}>Booking</Text>
                 </View>
 
@@ -55,7 +66,7 @@ export default function Profile({ navigation, route }) {
                 </View>
 
                 <View style={{ alignItems: 'center' }}>
-                  <Text style={[GlobalStyles.fontPrimary, { fontWeight: '500', fontSize: 18 }]}>50</Text>
+                  <Text style={[GlobalStyles.fontPrimary, { fontWeight: '500', fontSize: 18 }]}>{wishlist.length}</Text>
                   <Text style={[GlobalStyles.fontSecondary, {}]}>Favorites</Text>
                 </View>
               </View>
@@ -64,7 +75,7 @@ export default function Profile({ navigation, route }) {
         </View>
 
         <View style={[GlobalStyles.cardBody, { borderRadius: 0 }]}>
-
+        {booking.map((item, index) => <RenderHotel key={String(index)} navigation={navigation} index={index} item={item} disabled={true} />)}
         </View>
       </ScrollView>
     </SafeAreaView>
