@@ -8,6 +8,9 @@ import GlobalVar from '../Utils/GlobalVar';
 import Search from '../Screens';
 import Setting from '../Screens/Setting';
 import NotLogged from '../Components/NotLogged';
+import { checkExpireToken } from '../Utils/GlobalFunc';
+import Profile from '../Screens/Profile';
+import Wishlist from '../Screens/Wishlist';
 
 const Tab = createBottomTabNavigator();
 
@@ -18,40 +21,73 @@ export default function BottomTab() {
     const token = await AsyncStorageLib.getItem('token')
     if (token) setIsSignin(true)
   }
-
+  async function getDataUser() {
+    const jsonValue = await AsyncStorageLib.getItem('user')
+    console.log("user", JSON.parse(jsonValue))
+  }
   useEffect(() => {
     getStatusLogin()
+    getDataUser()
   }, [])
   return (
     <Tab.Navigator
       screenOptions={{
         tabBarActiveTintColor: GlobalVar.primaryColor,
       }}
+
     >
-      <Tab.Screen name="Search" component={Search} options={({ navigation, route }) => ({
-        title: 'Search',
-        tabBarIcon: ({ focused, color }) => (
-          <FA name={'search'} color={color} size={20} />
-        )
-      })} />
-      <Tab.Screen name="Favorite" component={Search} options={({ navigation, route }) => ({
-        title: 'Favorite',
-        tabBarIcon: ({ focused, color }) => (
-          <FA name={'heart'} color={color} size={20} />
-        )
-      })} />
-      <Tab.Screen name="Profile" component={Search} options={({ navigation, route }) => ({
-        title: 'Profile',
-        tabBarIcon: ({ focused, color }) => (
-          <FA name={'user'} color={color} size={20} />
-        )
-      })} />
-      <Tab.Screen name="Setting" component={isSignin? Setting : NotLogged } options={({ navigation, route }) => ({
-        title: 'Setting',
-        tabBarIcon: ({ focused, color }) => (
-          <FA name={'gear'} color={color} size={20} />
-        )
-      })} />
+      <Tab.Screen name="Search" component={Search}
+        listeners={({ navigation, route }) => ({
+          tabPress: e => {
+            checkExpireToken(navigation)
+          },
+        })}
+        options={({ navigation, route }) => ({
+          title: 'Search',
+          headerShown:false,
+          tabBarIcon: ({ focused, color }) => (
+            <FA name={'search'} color={color} size={20} />
+          )
+        })} />
+      <Tab.Screen name="Favorite" component={isSignin ? Wishlist : NotLogged}
+        listeners={({ navigation, route }) => ({
+          tabPress: e => {
+            checkExpireToken(navigation)
+          },
+        })}
+        options={({ navigation, route }) => ({
+          title: 'Favorite',
+          headerShown:false,
+          tabBarIcon: ({ focused, color }) => (
+            <FA name={'heart'} color={color} size={20} />
+          )
+        })} />
+      <Tab.Screen name="Profile" component={isSignin ? Profile : NotLogged}
+        listeners={({ navigation, route }) => ({
+          tabPress: e => {
+            checkExpireToken(navigation)
+          },
+        })}
+        options={({ navigation, route }) => ({
+          title: 'Profile',
+          headerShown:false,
+          tabBarIcon: ({ focused, color }) => (
+            <FA name={'user'} color={color} size={20} />
+          )
+        })} />
+      <Tab.Screen name="Setting" component={isSignin ? Setting : NotLogged}
+        listeners={({ navigation, route }) => ({
+          tabPress: e => {
+            checkExpireToken(navigation)
+          },
+        })}
+        options={({ navigation, route }) => ({
+          title: 'Setting',
+          headerShown:false,
+          tabBarIcon: ({ focused, color }) => (
+            <FA name={'gear'} color={color} size={20} />
+          )
+        })} />
     </Tab.Navigator>
   );
 }

@@ -1,13 +1,19 @@
 import React, { Component, useEffect } from 'react';
-import { View, Text, StatusBar } from 'react-native';
+import { View, Text, StatusBar, Dimensions } from 'react-native';
 import GlobalStyles from './Utils/GlobalStyles';
 import { Swing } from 'react-native-animated-spinkit'
 import GlobalVar from './Utils/GlobalVar';
+import { checkExpireToken, decodeToken } from './Utils/GlobalFunc';
+import FastImage from 'react-native-fast-image';
 
+import splash from './Assets/splash.jpg'
+
+const { width, height } = Dimensions.get('screen')
 export default function SplashScreen({ navigation, route }) {
 
   useEffect(() => {
-    setTimeout(() => {
+    setTimeout(async () => {
+      checkExpireToken(navigation)
       navigation.reset({
         index: 0,
         routes: [{ name: 'BottomTab' }],
@@ -17,9 +23,10 @@ export default function SplashScreen({ navigation, route }) {
   return (
     <View style={{ flex: 1, backgroundColor: 'white', alignItems: 'center', justifyContent: 'center' }}>
       <StatusBar hidden />
-      <Text style={[GlobalStyles.fontPrimary, { fontSize: 18, fontWeight: 'bold', marginBottom: 10 }]}>Kelompok 2</Text>
-      <Swing
-        color={GlobalVar.primaryColor}
+      <FastImage
+        source={splash}
+        style={{ width, height }}
+        resizeMode='contain'
       />
     </View>
   )

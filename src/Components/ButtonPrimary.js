@@ -9,14 +9,15 @@ export default function ButtonPrimary({
   width = '100%',
   isRounded = true,
   isLoading = false,
-  text = 'Tombol',
-  onPress = () => { }
+  text,
+  onPress,
+  style = {}
 }) {
   return (
     <TouchableOpacity
       onPress={onPress}
       disabled={isLoading}
-      style={[GlobalStyles.row, { justifyContent: 'center', alignItems: 'center', backgroundColor: isLoading ? GlobalVar.greyColor : GlobalVar.primaryColor, height, width, borderRadius: isRounded ? 5 : 0 }]}
+      style={[GlobalStyles.row, style, { justifyContent: 'center', alignItems: 'center', backgroundColor: isLoading ? GlobalVar.greyColor : GlobalVar.primaryColor, height, width, borderRadius: isRounded ? 5 : 0 }]}
     >
       {isLoading ?
         <Flow
